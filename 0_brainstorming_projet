@@ -1,4 +1,10 @@
 -> Uttiliser le training set comme source principal de data 
   -> On combine les fichier training_values et training_labels via la colone building building_id et on suprime la colone building_id 
   -> Via le nouveaux data set qu'on viens de crée, on va effectuer notre training et testing (avec un k-cross validation par exemple)
-    -> Sa diminuerait le taille de notre trainng set mais sa nous permettrait de ne pas devoir passer par DrivenData pour evaluer notre 
+    -> Sa diminuerait le taille de notre trainng set mais sa nous permettrait de ne pas devoir passer par DrivenData pour tester notre model 
+      -> En effet, DrivenData ne nous laisse que trois tentative par jour pour tester le model
+-> Chercher une borne inférieur sur l'efficasiter de nos algorithmes 
+  -> Dans DrivenData submite damage_grade = 1,2,3 partous pour obtenir la proportion de 1,2,3 dans la classification optimale 
+  -> Comparer cette proportion avec celle de notre dataset 
+  -> Submite dans DrivenData un fichier avec des damage_grade randome mais corepsondnant à la proportion precedament observer 
+  -> Il serait intéraisent de submite egalement un fichier randome sans la condition que la proportion de 1,2,3 soit celle précedament observer 
