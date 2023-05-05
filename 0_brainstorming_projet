@@ -8,3 +8,5 @@
   -> Comparer cette proportion avec celle de notre dataset 
   -> Submite dans DrivenData un fichier avec des damage_grade randome mais corepsondnant à la proportion precedament observer 
   -> Il serait intéraisent de submite egalement un fichier randome sans la condition que la proportion de 1,2,3 soit celle précedament observer 
+-> Au lieux de choisir le meuilleur algorithme a la fin on pourait combiner leur prediction 
+-> A la fin on pourait retrain chaqu'un des algorithme sur le full training dataset et comparer leur efficasiter via DrivenData
