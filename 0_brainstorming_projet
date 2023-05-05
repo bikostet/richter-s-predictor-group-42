@@ -1,0 +1,4 @@
+-> Uttiliser le training set comme source principal de data 
+  -> On combine les fichier training_values et training_labels via la colone building building_id et on suprime la colone building_id 
+  -> Via le nouveaux data set qu'on viens de crée, on va effectuer notre training et testing (avec un k-cross validation par exemple)
+    -> Sa diminuerait le taille de notre trainng set mais sa nous permettrait de ne pas devoir passer par DrivenData pour evaluer notre 
