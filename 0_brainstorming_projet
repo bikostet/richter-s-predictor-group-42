@@ -10,3 +10,37 @@
   -> Il serait intéraisent de submite egalement un fichier randome sans la condition que la proportion de 1,2,3 soit celle précedament observer 
 -> Au lieux de choisir le meuilleur algorithme a la fin on pourait combiner leur prediction 
 -> A la fin on pourait retrain chaqu'un des algorithme sur le full training dataset et comparer leur efficasiter via DrivenData
+
+
+Plan : 
+
+1. Data cleaning, normalization, feature engineering & feature selection
+
+- Do we need normalization? 
+I would say that we could do it just to be safe, it is not always required but certain methods such as neural networks need it.
+- Do we need feature engineering? 
+To convert categorical variables through one hot encoding yes, but anything else?
+- Feature selection strategies? 
+We can make preprocess using filter methods, but how to know how many features to keep?
+Pearson correlation of features with the target and set a threshold of correlation? Perform an F-test and keep p-values only <0.05? Train on a toy model of the same class to see the importance of each variable and select based on the CV values on these? Then, afterwards, sort the remaining variables with mRMR and further select when working on the model?
+Caret package.
+- Perform some data exploration, histograms, correlation matrix plots.
+
+
+2. Model selection
+
+- Implement at least three different algorithms and compare them through k-fold CV/Bagging. Since we are dealing with classification here: confusion matrix? F1 score used by DrivenData?
+- Which models? (see https://www.projectpro.io/article/model-selection-in-machine-learning/824). Big dataset with a medium amount of features
+  -> RandomForest
+  -> keras
+  -> AdaBoosted tree/rpart?
+  -> glmnet? Nonlinear relationships are likely here but lasso embeds feature selection.
+  -> KNN and SVM are not adapted to big datasets
+  -> stats/ridge why when we can LASSO/ElasticNet? Answer: Lasso tends to do well if there are a small number of significant parameters and the others are close to zero (ergo: when only a few predictors actually influence the response). Ridge works well if there are many large parameters of about the same value (ergo: when most predictors impact the response).
+
+- Work repartition:
+Part 1: 
+Both try everything and explore, then merge results
+Part 2: 
+Pacôme : Linear model & Gradient boosted tree
+Bilal : RandomForest & Keras
