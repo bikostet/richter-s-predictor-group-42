@@ -16,27 +16,46 @@ Plan :
 
 1. Data cleaning, normalization, feature engineering & feature selection
 
+- Perform some data exploration, histograms, correlation matrix plots.
+We should do a histogram of the numerical values to see if they are homogeneously distributed or if there is a preference.
+For the zones, see if there are a lot of representants of each zone or not.
+
 - Do we need normalization? 
 I would say that we could do it just to be safe, it is not always required but certain methods such as neural networks need it.
 - Do we need feature engineering? 
-To convert categorical variables through one hot encoding yes, but anything else?
+To convert categorical variables through one hot encoding yes, but not for random forest.
+Any other features to engineer? Can we do something with the zones and the area/height?
+
+
 - Feature selection strategies? 
 We can make preprocess using filter methods, but how to know how many features to keep?
 Pearson correlation of features with the target and set a threshold of correlation? Perform an F-test and keep p-values only <0.05? Train on a toy model of the same class to see the importance of each variable and select based on the CV values on these? Then, afterwards, sort the remaining variables with mRMR and further select when working on the model?
 Caret package.
-- Perform some data exploration, histograms, correlation matrix plots.
+
+We remove features with almost zero variance (good, also removes binary values that are always 0).
+
+
 
 
 2. Model selection
 
-- Implement at least three different algorithms and compare them through k-fold CV/Bagging. Since we are dealing with classification here: confusion matrix? F1 score used by DrivenData?
+- Implement at least three different algorithms and compare them through microF1 k-fold CV.
 - Which models? (see https://www.projectpro.io/article/model-selection-in-machine-learning/824). Big dataset with a medium amount of features
   -> RandomForest
   -> keras
   -> AdaBoosted tree/rpart?
   -> glmnet? Nonlinear relationships are likely here but lasso embeds feature selection.
   -> KNN and SVM are not adapted to big datasets
-  -> stats/ridge why when we can LASSO/ElasticNet? Answer: Lasso tends to do well if there are a small number of significant parameters and the others are close to zero (ergo: when only a few predictors actually influence the response). Ridge works well if there are many large parameters of about the same value (ergo: when most predictors impact the response).
+  -> stats/ridge why when we can LASSO/ElasticNet? Answer: "Lasso tends to do well if there are a small number of significant parameters and the others are close to zero (ergo: when only a few predictors actually influence the response). Ridge works well if there are many large parameters of about the same value (ergo: when most predictors impact the response)."
+
+Start with the simplest: linear model, see if it yields something good already. We don't expect it, since not very adapted to this problem.
+
+randomForest: we scan n_trees, and mTry with tuneRF. Double loop (with a small subsample) or first find best n_trees then best tuneRF for that value?
+k-fold CV to confirm the microF1 score. rfcv to find out which features we can reasonably keep out without losing predictive power for future computations. Printing varImpPlot shows that even though they are poorly correlated, zones are one of the most important variables.
+
+To try: train with 0.9 of the dataset, see if big difference in k-cv score. train with a small subsample of the dataset, see if difference.
+
+
 
 - Work repartition:
 Part 1: 
