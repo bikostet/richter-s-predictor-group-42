@@ -55,7 +55,8 @@ k-fold CV to confirm the microF1 score. rfcv to find out which features we can r
 
 To try: train with 0.9 of the dataset, see if big difference in k-cv score. train with a small subsample of the dataset, see if difference.
 
-
+To do : when optimal parameters, use rfcv to remove features less important. Compare with features removed by following rMRM.
+Check histogram of continuous variable to see if needed to bin (step_discretize ds keras)
 
 - Work repartition:
 Part 1: 
