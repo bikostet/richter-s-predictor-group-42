@@ -61,7 +61,7 @@ To do (Bilal) :
 - Outliers? Scale data with or without for Keras?
 - k-fold CV of keras  
 - For test values, if zone not in zone-dictionary then go to higher zone.
-
+- check if parallelization or GPU use is possible
 
 - Check if building_id used in RF.
 - Perform rfcv. With engineered zones!
