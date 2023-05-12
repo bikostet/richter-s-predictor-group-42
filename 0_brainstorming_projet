@@ -58,9 +58,11 @@ Pacôme : Linear model & Gradient boosted tree
 Bilal : RandomForest & Keras
 
 To do (Bilal) : 
-- Outliers? Then scale data.  
-- Keras
+- Outliers? Scale data with or without for Keras?
+- k-fold CV of keras  
 - For test values, if zone not in zone-dictionary then go to higher zone.
+
+
 - Check if building_id used in RF.
 - Perform rfcv. With engineered zones!
 - Check RF with variable removed following mRMR and compare with rfcv. With engineered zones!
