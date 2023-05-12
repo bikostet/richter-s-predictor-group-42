@@ -1,44 +1,36 @@
--> Uttiliser le training set comme source principal de data 
-  -> On combine les fichier training_values et training_labels via la colone building building_id et on suprime la colone building_id 
-  -> Via le nouveaux data set qu'on viens de crée, on va effectuer notre training et testing (avec un k-cross validation par exemple)
-    -> Sa diminuerait le taille de notre trainng set mais sa nous permettrait de ne pas devoir passer par DrivenData pour tester notre model 
-      -> En effet, DrivenData ne nous laisse que trois tentative par jour pour tester le model
--> Chercher une borne inférieur sur l'efficasiter de nos algorithmes 
-  -> Dans DrivenData submite damage_grade = 1,2,3 partous pour obtenir la proportion de 1,2,3 dans la classification optimale 
-  -> Comparer cette proportion avec celle de notre dataset 
-  -> Submite dans DrivenData un fichier avec des damage_grade randome mais corepsondnant à la proportion precedament observer 
-  -> Il serait intéraisent de submite egalement un fichier randome sans la condition que la proportion de 1,2,3 soit celle précedament observer 
--> Au lieux de choisir le meuilleur algorithme a la fin on pourait combiner leur prediction 
--> A la fin on pourait retrain chaqu'un des algorithme sur le full training dataset et comparer leur efficasiter via DrivenData
-
-
 Plan : 
 
 1. Data cleaning, normalization, feature engineering & feature selection
 
 - Perform some data exploration, histograms, correlation matrix plots.
-We should do a histogram of the numerical values to see if they are homogeneously distributed or if there is a preference.
+We should do a histogram of the numerical values to see if they are homogeneously distributed or if there is a preference. We should also plot histograms of damage grade distribution on each variation. This can help understand why better trained on 2 than 1s.
 For the zones, see if there are a lot of representants of each zone or not.
 
 - Do we need normalization? 
 I would say that we could do it just to be safe, it is not always required but certain methods such as neural networks need it.
-- Do we need feature engineering? 
-To convert categorical variables through one hot encoding yes, but not for random forest.
-Any other features to engineer? Can we do something with the zones and the area/height?
+We do not normalize as the features do not follow a normal distrib, but rescale instead.
+RF can be very sensitive to outliers.
 
+- Low correlation even for values which are obv important (such as zone, closer to the epicenter should be important)?
+
+- Do we need feature engineering? 
+To convert categorical variables through one hot encoding yes, but not needed for random forest.
+Any other features to engineer? Can we do something with the zones and the area/height?
+Mean damage grade per zone.
 
 - Feature selection strategies? 
-We can make preprocess using filter methods, but how to know how many features to keep?
+We can preprocess using filter methods, but how to know how many features to keep?
 Pearson correlation of features with the target and set a threshold of correlation? Perform an F-test and keep p-values only <0.05? Train on a toy model of the same class to see the importance of each variable and select based on the CV values on these? Then, afterwards, sort the remaining variables with mRMR and further select when working on the model?
 Caret package.
 
-We remove features with almost zero variance (good, also removes binary values that are always 0).
+- We remove features with almost zero variance (good, also removes binary values that are always 0).
 
-
+- Split dataset into testing and training set to train and k-CV the methods.
 
 
 2. Model selection
 
+- Efficacity of random guess? Following the distrib of the data? Only 1s ? Lower threshold for our methods.
 - Implement at least three different algorithms and compare them through microF1 k-fold CV.
 - Which models? (see https://www.projectpro.io/article/model-selection-in-machine-learning/824). Big dataset with a medium amount of features
   -> RandomForest
@@ -53,10 +45,10 @@ Start with the simplest: linear model, see if it yields something good already. 
 randomForest: we scan n_trees, and mTry with tuneRF. Double loop (with a small subsample) or first find best n_trees then best tuneRF for that value?
 k-fold CV to confirm the microF1 score. rfcv to find out which features we can reasonably keep out without losing predictive power for future computations. Printing varImpPlot shows that even though they are poorly correlated, zones are one of the most important variables.
 
-To try: train with 0.9 of the dataset, see if big difference in k-cv score. train with a small subsample of the dataset, see if difference.
 
-To do : when optimal parameters, use rfcv to remove features less important. Compare with features removed by following rMRM.
-Check histogram of continuous variable to see if needed to bin (step_discretize ds keras)
+
+
+
 
 - Work repartition:
 Part 1: 
@@ -64,3 +56,12 @@ Both try everything and explore, then merge results
 Part 2: 
 Pacôme : Linear model & Gradient boosted tree
 Bilal : RandomForest & Keras
+
+To do (Bilal) : 
+- Outliers? Then scale data.  
+- Keras
+- For test values, if zone not in zone-dictionary then go to higher zone.
+- Check if building_id used in RF.
+- Perform rfcv. With engineered zones!
+- Check RF with variable removed following mRMR and compare with rfcv. With engineered zones!
+- Perform final RF with tuned hyperparameters and less features if possible, with de-outliered and scaled variables and with engineered zones.
