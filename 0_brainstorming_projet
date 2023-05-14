@@ -48,8 +48,6 @@ k-fold CV to confirm the microF1 score. rfcv to find out which features we can r
 
 
 
-
-
 - Work repartition:
 Part 1: 
 Both try everything and explore, then merge results
@@ -58,17 +56,30 @@ Pacôme : Linear model & Gradient boosted tree
 Bilal : RandomForest & Keras
 
 To do (Bilal) : 
-
-- Try a small RF (250?) with and without sub-sampling to re-equilibrate target, see if it gets better or worse.
-
-- Outliers? Scale data with or without for Keras?
+- Outliers? Scale data with or without for Keras? 
 - k-fold CV of keras  
 - For test values, if zone not in zone-dictionary then go to higher zone.
 - check if parallelization or GPU use is possible
-- Test Adam learning rate at 1e-4 or 3-e4
 
 - Check if building_id used in RF.
 - Perform rfcv. With engineered zones!
 - Check RF with variable removed following mRMR and compare with rfcv. With engineered zones!
 - Perform final RF with tuned hyperparameters and less features if possible, with de-outliered and scaled variables and with engineered zones.
-Don't forget to train on full dataset before prediction.
+
+
+PLAN : 
+
+1. Data cleaning.
+  - NAs and " " 
+  - Check encoding of columns
+  - Doublons (ids)
+  - Features redondantes
+  - Valeurs impossibles
+
+2. Data visualization + exploration 
+  - Outliers
+  - Correlations (dummy)
+  - Histograms (on vire l'outlier age vu sa distribution)
+  - Imbalance of target: subsample ou oversample.
+
+3. 
