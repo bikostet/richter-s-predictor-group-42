@@ -46,15 +46,6 @@ randomForest: we scan n_trees, and mTry with tuneRF. Double loop (with a small s
 k-fold CV to confirm the microF1 score. rfcv to find out which features we can reasonably keep out without losing predictive power for future computations. Printing varImpPlot shows that even though they are poorly correlated, zones are one of the most important variables.
 
 
-
-
-- Work repartition:
-Part 1: 
-Both try everything and explore, then merge results
-Part 2: 
-Pacôme : Linear model & Gradient boosted tree
-Bilal : RandomForest & Keras
-
 To do (Bilal) : 
 - Outliers? Scale data with or without for Keras? 
 - k-fold CV of keras  
@@ -82,4 +73,38 @@ PLAN :
   - Histograms (on vire l'outlier age vu sa distribution)
   - Imbalance of target: subsample ou oversample.
 
-3. 
+3. Feature engineering
+  - Target encoding (mean + sd)
+  - Correlation of new var
+  - Standardization du dummy dataset
+
+4. Feature selection
+  - NZV (lin) 
+  - Collinéarite (lin)
+  - Sparse data
+  - rMRM (combine les 2 corr)
+  - PCA
+  - Embedded methods
+
+5. Model selection
+  - Linear
+  - NN
+  - RF
+  -> Feature selection
+    - Embedded
+    - Imbalance correction
+  - Tuning (avec k-fold CV)
+  - k-fold CV
+  - Comparaison des modèles + DrivenData
+
+  6. Learning procedure
+    - XGBoost
+    -> Feature selection
+    - Tuning 
+    - k-fold CV
+    - Comparaison avec 5
+  
+  7. Ensemble prediction avec les 4 
+    - Adaboost
+    - Stacked regression
+    - Variable importance avec entropie
